@@ -15,6 +15,7 @@ def parse_args(parser):
     entry = parser.parse_args()
     json_path = entry.cfg
     args = json_to_args(json_path)
-    if hasattr(entry, 'model'):
-        args.model = entry.model
+    args_dict = args.__dict__
+    for index, (key, value) in enumerate(vars(entry).items()):
+        args_dict[key] = value
     return args

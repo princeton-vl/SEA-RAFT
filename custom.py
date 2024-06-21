@@ -92,134 +92,43 @@ def calc_flow(args, model, image1, image2):
     return flow_down, info_down
 
 @torch.no_grad()
-def demo_data(name, args, model, image1, image2, flow_gt):
-    path = f"demo/{name}/"
+def demo_data(path, args, model, image1, image2):
     os.system(f"mkdir -p {path}")
     H, W = image1.shape[2:]
-    cv2.imwrite(f"{path}image1.jpg", cv2.cvtColor(image1[0].permute(1, 2, 0).cpu().numpy(), cv2.COLOR_RGB2BGR))
-    cv2.imwrite(f"{path}image2.jpg", cv2.cvtColor(image2[0].permute(1, 2, 0).cpu().numpy(), cv2.COLOR_RGB2BGR))
-    flow_gt_vis = flow_to_image(flow_gt[0].permute(1, 2, 0).cpu().numpy(), convert_to_bgr=True)
-    cv2.imwrite(f"{path}gt.jpg", flow_gt_vis)
     flow, info = calc_flow(args, model, image1, image2)
     flow_vis = flow_to_image(flow[0].permute(1, 2, 0).cpu().numpy(), convert_to_bgr=True)
-    cv2.imwrite(f"{path}flow_final.jpg", flow_vis)
-    diff = flow_gt - flow
-    diff_vis = flow_to_image(diff[0].permute(1, 2, 0).cpu().numpy(), convert_to_bgr=True)
-    cv2.imwrite(f"{path}error_final.jpg", diff_vis)
+    cv2.imwrite(f"{path}flow.jpg", flow_vis)
     heatmap = get_heatmap(info, args)
-    vis_heatmap(f"{path}heatmap_final.jpg", image1[0].permute(1, 2, 0).cpu().numpy(), heatmap[0].permute(1, 2, 0).cpu().numpy())
-    epe = torch.sum((flow - flow_gt)**2, dim=1).sqrt()
-    print(f"EPE: {epe.mean().cpu().item()}")
-
-@torch.no_grad()
-def demo_chairs(model, args, device=torch.device('cuda')):
-    dataset = datasets.FlyingChairs(split='training')
-    image1, image2, flow_gt, _ = dataset[1345]
-    image1 = image1[None].to(device)
-    image2 = image2[None].to(device)
-    flow_gt = flow_gt[None].to(device)
-    demo_data('chairs', args, model, image1, image2, flow_gt)
-
-def demo_sintel(model, args, device=torch.device('cuda')):
-    dstype = 'final'
-    dataset = datasets.MpiSintel(split='training', dstype=dstype)
-    image1, image2, flow_gt, _ = dataset[100]
-    image1 = image1[None].to(device)
-    image2 = image2[None].to(device)
-    flow_gt = flow_gt[None].to(device)
-    demo_data('sintel', args, model, image1, image2, flow_gt)
-
-@torch.no_grad()
-def demo_spring(model, args, device=torch.device('cuda'), split='train'):
-    dataset = datasets.SpringFlowDataset(split=split)
-    idx = 19198
-    if split == 'train' or split == 'val':
-        image1, image2, flow_gt, _ = dataset[idx]
-    else:
-        image1, image2,  _ = dataset[idx]
-        h, w = image1.shape[1:]
-        flow_gt = torch.zeros((2, h, w))
-
-    image1 = image1[None].to(device)
-    image2 = image2[None].to(device)
-    flow_gt = flow_gt[None].to(device)
-    demo_data('spring', args, model, image1, image2, flow_gt)
-
-@torch.no_grad()
-def demo_tartanair(model, args, device=torch.device('cuda')):
-    dataset = datasets.TartanAir()
-    image1, image2, flow_gt, _ = dataset[1070]
-    image1 = image1[None].to(device)
-    image2 = image2[None].to(device)
-    flow_gt = flow_gt[None].to(device)
-    demo_data('tartanair', args, model, image1, image2, flow_gt)
-
-@torch.no_grad()
-def demo_infinigen(model, args, device=torch.device('cuda')):
-    dataset = datasets.Infinigen()
-    image1, image2, flow_gt, _ = dataset[1000]
-    image1 = image1[None].to(device)
-    image2 = image2[None].to(device)
-    flow_gt = flow_gt[None].to(device)
-    demo_data('infinigen', args, model, image1, image2, flow_gt)
-
-@torch.no_grad()
-def demo_hd1k(model, args, device=torch.device('cuda')):
-    dataset = datasets.HD1K()
-    print(len(dataset))
-    image1, image2, flow_gt, _ = dataset[0]
-    image1 = image1[None].to(device)
-    image2 = image2[None].to(device)
-    flow_gt = flow_gt[None].to(device)
-    demo_data('hd1k', args, model, image1, image2, flow_gt)
-
-@torch.no_grad()
-def demo_middlebury(model, args, device=torch.device('cuda')):
-    dataset = datasets.Middlebury()
-    image1, image2, flow_gt, _ = dataset[3]
-    image1 = image1[None].to(device)
-    image2 = image2[None].to(device)
-    flow_gt = flow_gt[None].to(device)
-    demo_data('middlebury', args, model, image1, image2, flow_gt)
+    vis_heatmap(f"{path}heatmap.jpg", image1[0].permute(1, 2, 0).cpu().numpy(), heatmap[0].permute(1, 2, 0).cpu().numpy())
 
 @torch.no_grad()
 def demo_custom(model, args, device=torch.device('cuda')):
-    image1 = cv2.imread('../custom_images/0011.png')
+    image1 = cv2.imread("./custom/image1.jpg")
     image1 = cv2.cvtColor(image1, cv2.COLOR_BGR2RGB)
-    image2 = cv2.imread('../custom_images/0012.png')
+    image2 = cv2.imread("./custom/image2.jpg")
     image2 = cv2.cvtColor(image2, cv2.COLOR_BGR2RGB)
     image1 = torch.tensor(image1, dtype=torch.float32).permute(2, 0, 1)
     image2 = torch.tensor(image2, dtype=torch.float32).permute(2, 0, 1)
     H, W = image1.shape[1:]
-    flow_gt = torch.zeros([2, H, W], device=device)
     image1 = image1[None].to(device)
     image2 = image2[None].to(device)
-    flow_gt = flow_gt[None].to(device)
-    demo_data('custom_downsample', args, model, image1, image2, flow_gt)
+    demo_data('./custom/', args, model, image1, image2)
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--cfg', help='experiment configure file name', required=True, type=str)
     parser.add_argument('--model', help='checkpoint path', required=True, type=str)
-    parser.add_argument('')
+    parser.add_argument('--device', help='inference device', type=str, default='cpu')
     args = parse_args(parser)
     model = RAFT(args)
     load_ckpt(model, args.model)
-    model = model.cuda()
+    if args.device == 'cuda':
+        device = torch.device('cuda')
+    else:
+        device = torch.device('cpu')
+    model = model.to(device)
     model.eval()
-
-    # demo_custom(model, args)
-
-    if args.dataset == 'chairs':
-        demo_chairs(model, args)
-    elif args.dataset == 'things' or args.dataset == 'sintel':
-        demo_sintel(model, args)
-    elif args.dataset == 'spring':
-        demo_spring(model, args, split='train')
-    elif args.dataset == 'hd1k':
-        demo_hd1k(model, args)
-    elif args.dataset == 'middlebury':
-        demo_middlebury(model, args)
+    demo_custom(model, args, device=device)
 
 if __name__ == '__main__':
     main()
