@@ -13,7 +13,6 @@ checkpoints
 weights
 *.ckpt
 *.pth
-*.jpg
 *.ppm
 *.flo
 *.egg-info
