@@ -117,11 +117,18 @@ def demo_custom(model, args, device=torch.device('cuda')):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--cfg', help='experiment configure file name', required=True, type=str)
-    parser.add_argument('--model', help='checkpoint path', required=True, type=str)
+    parser.add_argument('--path', help='checkpoint path', type=str, default=None)
+    parser.add_argument('--url', help='checkpoint url', type=str, default=None)
     parser.add_argument('--device', help='inference device', type=str, default='cpu')
     args = parse_args(parser)
-    model = RAFT(args)
-    load_ckpt(model, args.model)
+    if args.path is None and args.url is None:
+        raise ValueError("Either --path or --url must be provided")
+    if args.path is not None:
+        model = RAFT(args)
+        load_ckpt(model, args.path)
+    else:
+        model = RAFT.from_pretrained(args.url, args=args)
+        
     if args.device == 'cuda':
         device = torch.device('cuda')
     else:

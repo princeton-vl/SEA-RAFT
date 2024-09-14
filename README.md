@@ -39,9 +39,13 @@ Please download the models from [google drive](https://drive.google.com/drive/fo
 
 ## Custom Usage
 
-We provide an example in `custom.py`. By default, this file will take two RGB images as the input and provide visualizations of the optical flow and the uncertainty. 
+We provide an example in `custom.py`. By default, this file will take two RGB images as the input and provide visualizations of the optical flow and the uncertainty. You can load your model by providing the path:
 ```Shell
-python custom.py --cfg config/eval/spring-M.json --model models/Tartan-C-T-TSKH-spring540x960-M.pth
+python custom.py --cfg config/eval/spring-M.json --path models/Tartan-C-T-TSKH-spring540x960-M.pth
+```
+or load our models through HuggingFace🤗 (make sure you have installed huggingface-hub):
+```Shell
+python custom.py --cfg config/eval/spring-M.json --path MemorySlices/Tartan-C-T-TSKH-spring540x960-M
 ```
 
 ## Datasets
