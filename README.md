@@ -35,7 +35,10 @@ pip install -r requirements.txt
 ```
 
 ## Model Zoo
-Please download the models from [google drive](https://drive.google.com/drive/folders/1YLovlvUW94vciWvTyLf-p3uWscbOQRWW?usp=sharing) and put them into the `models` folder.
+
+Google Drive: [link](https://drive.google.com/drive/folders/1YLovlvUW94vciWvTyLf-p3uWscbOQRWW?usp=sharing).
+
+HuggingFace🤗: [link](https://huggingface.co/papers/2405.14793).
 
 ## Custom Usage
 
