@@ -38,7 +38,7 @@ pip install -r requirements.txt
 
 Google Drive: [link](https://drive.google.com/drive/folders/1YLovlvUW94vciWvTyLf-p3uWscbOQRWW?usp=sharing).
 
-HuggingFace🤗: [link](https://huggingface.co/papers/2405.14793).
+HuggingFace: [link](https://huggingface.co/papers/2405.14793).
 
 ## Custom Usage
 
