@@ -14,13 +14,13 @@ import torch.utils.data as data
 
 from config.parser import parse_args
 
-import datasets
-from raft import RAFT
+import sea_raft.datasets
+from sea_raft.raft import RAFT
 from tqdm import tqdm
 
-from utils.flow_viz import flow_to_image
-from utils import frame_utils
-from utils.utils import load_ckpt, InputPadder
+from sea_raft.utils.flow_viz import flow_to_image
+from sea_raft.utils import frame_utils
+from sea_raft.utils.utils import load_ckpt, InputPadder
 
 def forward_flow(args, model, image1, image2):
     output = model(image1, image2, iters=args.iters, test_mode=True)

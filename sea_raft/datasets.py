@@ -12,9 +12,9 @@ import h5py
 from tqdm import tqdm
 from glob import glob
 import os.path as osp
-from utils import frame_utils
-from utils.augmentor import FlowAugmentor, SparseFlowAugmentor
-from utils.utils import induced_flow, check_cycle_consistency
+from sea_raft.utils import frame_utils
+from sea_raft.utils.augmentor import FlowAugmentor, SparseFlowAugmentor
+from sea_raft.utils.utils import induced_flow, check_cycle_consistency
 from ddp_utils import *
 
 class FlowDataset(data.Dataset):

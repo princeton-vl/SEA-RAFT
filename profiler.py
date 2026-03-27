@@ -3,7 +3,7 @@ sys.path.append('core')
 import argparse
 import torch
 from config.parser import parse_args
-from raft import RAFT
+from sea_raft.raft import RAFT
 
 def main():
     parser = argparse.ArgumentParser()

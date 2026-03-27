@@ -8,14 +8,15 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.utils.data as data
-
-import datasets
-from raft import RAFT
 from tqdm import tqdm
 
-from utils import flow_viz
-from utils import frame_utils
-from utils.utils import resize_data, load_ckpt
+import sea_raft.datasets
+from sea_raft.raft import RAFT
+
+
+from sea_raft.utils import flow_viz
+from sea_raft.utils import frame_utils
+from sea_raft.utils.utils import resize_data, load_ckpt
 
 import ptlflow
 from ptlflow.utils import flow_utils

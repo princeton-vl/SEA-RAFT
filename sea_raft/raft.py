@@ -4,11 +4,11 @@ import math
 import torch.nn as nn
 import torch.nn.functional as F
 
-from update import BasicUpdateBlock
-from corr import CorrBlock
-from utils.utils import coords_grid, InputPadder
-from extractor import ResNetFPN
-from layer import conv1x1, conv3x3
+from sea_raft.update import BasicUpdateBlock
+from sea_raft.corr import CorrBlock
+from sea_raft.utils.utils import coords_grid, InputPadder
+from sea_raft.extractor import ResNetFPN
+from sea_raft.layer import conv1x1, conv3x3
 
 from huggingface_hub import PyTorchModelHubMixin
 

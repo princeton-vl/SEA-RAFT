@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from utils.utils import coords_grid, bilinear_sampler
+from sea_raft.utils.utils import coords_grid, bilinear_sampler
 
 try:
     import alt_cuda_corr

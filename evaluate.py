@@ -10,10 +10,10 @@ import torch.utils.data as data
 
 from config.parser import parse_args
 
-import datasets
-from raft import RAFT
+import sea_raft.datasets
+from sea_raft.raft import RAFT
 from tqdm import tqdm
-from utils.utils import resize_data, load_ckpt
+from sea_raft.utils.utils import resize_data, load_ckpt
 
 def forward_flow(args, model, image1, image2):
     output = model(image1, image2, iters=args.iters, test_mode=True)
@@ -169,6 +169,7 @@ def eval(args):
 
 def main():
     parser = argparse.ArgumentParser()
+
     parser.add_argument('--cfg', help='experiment configure file name', required=True, type=str)
     parser.add_argument('--model', help='checkpoint path', required=True, type=str)
     args = parse_args(parser)

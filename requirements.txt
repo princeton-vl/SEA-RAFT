@@ -9,3 +9,4 @@ tensorboard
 h5py
 tqdm
 einops
+huggingface-hub

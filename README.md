@@ -29,14 +29,27 @@ If you find SEA-RAFT useful for your work, please consider citing our academic p
   year={2024}
 }
 ```
+## installation
+
+```bash
+pip install git+https://github.com/princeton-vl/SEA-RAFT
+```
+
+
+```bash
+pip install sea-raft # if its has gotten uploaded to pypi
+```
+
 
 ## Requirements
 Our code is developed with pytorch 2.2.0, CUDA 12.2 and python 3.10.
 ```Shell
 conda create --name SEA-RAFT python=3.10.13
 conda activate SEA-RAFT
-pip install -r requirements.txt
+pip install . # if you have cloned it 
+pip install git+https://github.com/princeton-vl/SEA-RAFT # if you want to use it
 ```
+
 
 ## Model Zoo
 
